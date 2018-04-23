@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<script type="text/javascript">
+    function onInit(s, e) {
+        DocumentViewer.Refresh();
+    }
+    function onEndCallback(s, e) {
+        DocumentViewer.Refresh();
+    }
+</script>
+
+@*@using (Html.BeginForm()) {*@
+    @Html.Action("PivotGridPartial")
+    @Html.Action("DocumentViewerPartial", "Home")
+@*}*@
