@@ -6,14 +6,15 @@
 
 <script type="text/javascript">
     function onInit(s, e) {
-        DocumentViewer.Refresh();
+        WebDocumentViewer.OpenReport("PivotGrid");
     }
     function onEndCallback(s, e) {
-        DocumentViewer.Refresh();
+        WebDocumentViewer.Close();
+        WebDocumentViewer.OpenReport("PivotGrid");
     }
 </script>
 
-@*@using (Html.BeginForm()) {*@
-    @Html.Action("PivotGridPartial")
-    @Html.Action("DocumentViewerPartial", "Home")
-@*}*@
+@Html.Action("PivotGridPartial")
+@Html.DevExpress().WebDocumentViewer(settings => {
+    settings.Name = "WebDocumentViewer";
+}).GetHtml()

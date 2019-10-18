@@ -1,3 +1,5 @@
+using DevExpress.Web.Mvc;
+using DevExpress.XtraReports.Web.WebDocumentViewer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,10 @@ namespace DXWebApplication3
             ModelBinders.Binders.DefaultBinder = new DevExpress.Web.Mvc.DevExpressEditorsBinder();
 
             DevExpress.Web.ASPxWebControl.CallbackError += Application_Error;
+
+            DevExpress.XtraReports.Web.WebDocumentViewer.Native.WebDocumentViewerBootstrapper.SessionState = System.Web.SessionState.SessionStateBehavior.Required;
+            DefaultWebDocumentViewerContainer.Register<IWebDocumentViewerReportResolver, CustomWebDocumentViewerReportResolver>();
+            MVCxWebDocumentViewer.StaticInitialize();
         }
 
         protected void Application_Error(object sender, EventArgs e) 

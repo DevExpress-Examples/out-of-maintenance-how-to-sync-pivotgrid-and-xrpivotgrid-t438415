@@ -1,11 +1,20 @@
-﻿<script type="text/javascript">
+﻿@Code
+    ViewBag.Title = "Index"
+End Code
+
+<h2>Index</h2>
+
+<script type="text/javascript">
     function onInit(s, e) {
-        DocumentViewer.Refresh();
+        WebDocumentViewer.OpenReport("PivotGrid");
     }
     function onEndCallback(s, e) {
-        DocumentViewer.Refresh();
+        WebDocumentViewer.Close();
+        WebDocumentViewer.OpenReport("PivotGrid");
     }
 </script>
 
 @Html.Action("PivotGridPartial")
-@Html.Action("DocumentViewerPartial", "Home")
+@Html.DevExpress().WebDocumentViewer(Sub(settings)
+                                              settings.Name = "WebDocumentViewer"
+                                          End Sub).GetHtml()

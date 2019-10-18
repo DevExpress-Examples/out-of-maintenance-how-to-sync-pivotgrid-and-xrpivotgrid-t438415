@@ -1,3 +1,5 @@
+﻿Imports DevExpress.Web.Mvc
+Imports DevExpress.XtraReports.Web.WebDocumentViewer
 Imports Microsoft.VisualBasic
 Imports System
 Imports System.Collections.Generic
@@ -8,26 +10,31 @@ Imports System.Web.Mvc
 Imports System.Web.Routing
 
 Namespace DXWebApplication3
-	' Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-	' visit http://go.microsoft.com/?LinkId=9394801
+    ' Note: For instructions on enabling IIS6 or IIS7 classic mode, 
+    ' visit http://go.microsoft.com/?LinkId=9394801
 
-	Public Class MvcApplication
-		Inherits System.Web.HttpApplication
-		Protected Sub Application_Start()
-			AreaRegistration.RegisterAllAreas()
+    Public Class MvcApplication
+        Inherits System.Web.HttpApplication
+
+        Protected Sub Application_Start()
+            AreaRegistration.RegisterAllAreas()
 
             GlobalConfiguration.Configure(AddressOf WebApiConfig.Register)
-			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters)
-			RouteConfig.RegisterRoutes(RouteTable.Routes)
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters)
+            RouteConfig.RegisterRoutes(RouteTable.Routes)
 
-			ModelBinders.Binders.DefaultBinder = New DevExpress.Web.Mvc.DevExpressEditorsBinder()
+            ModelBinders.Binders.DefaultBinder = New DevExpress.Web.Mvc.DevExpressEditorsBinder()
 
-			AddHandler DevExpress.Web.ASPxWebControl.CallbackError, AddressOf Application_Error
-		End Sub
+            AddHandler DevExpress.Web.ASPxWebControl.CallbackError, AddressOf Application_Error
 
-		Protected Sub Application_Error(ByVal sender As Object, ByVal e As EventArgs)
-			Dim exception As Exception = System.Web.HttpContext.Current.Server.GetLastError()
-			'TODO: Handle Exception
-		End Sub
-	End Class
+            DevExpress.XtraReports.Web.WebDocumentViewer.Native.WebDocumentViewerBootstrapper.SessionState = System.Web.SessionState.SessionStateBehavior.Required
+            DefaultWebDocumentViewerContainer.Register(Of IWebDocumentViewerReportResolver, CustomWebDocumentViewerReportResolver)()
+            MVCxWebDocumentViewer.StaticInitialize()
+        End Sub
+
+        Protected Sub Application_Error(ByVal sender As Object, ByVal e As EventArgs)
+            Dim exception As Exception = System.Web.HttpContext.Current.Server.GetLastError()
+            'TODO: Handle Exception
+        End Sub
+    End Class
 End Namespace
