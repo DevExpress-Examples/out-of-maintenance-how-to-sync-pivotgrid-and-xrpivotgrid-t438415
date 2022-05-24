@@ -16,35 +16,33 @@ End Functions
 
 @Html.DevExpress().PivotGrid(
  Sub(settings)
-         settings.Name = "PivotGrid"
-         settings.CallbackRouteValues = New With {Key .Controller = "Home", Key .Action = "PivotGridPartial"}
-         settings.Fields.Add(Sub(field)
-                                     field.Area = PivotArea.RowArea
-                                     field.FieldName = "CategoryName"
-                                     field.Caption = "CategoryName"
-                             End Sub)
-         settings.Fields.Add(Sub(field)
-                                     field.Area = PivotArea.FilterArea
-                                     field.FieldName = "ProductName"
-                                     field.Caption = "ProductName"
+     settings.Name = "PivotGrid"
+     settings.CallbackRouteValues = New With {Key .Controller = "Home", Key .Action = "PivotGridPartial"}
+     settings.OptionsData.DataProcessingEngine = PivotDataProcessingEngine.Optimized
+     settings.Fields.Add(Sub(field)
+                             field.Area = PivotArea.RowArea
+                             field.DataBinding = New DevExpress.Web.ASPxPivotGrid.DataSourceColumnBinding("CategoryName")
+                             field.Caption = "CategoryName"
+                         End Sub)
+     settings.Fields.Add(Sub(field)
+                             field.Area = PivotArea.FilterArea
+                             field.DataBinding = New DevExpress.Web.ASPxPivotGrid.DataSourceColumnBinding("ProductName")
+                             field.Caption = "ProductName"
+                         End Sub)
+     settings.Fields.Add(Sub(field)
+                             field.Area = PivotArea.DataArea
+                             field.DataBinding = New DevExpress.Web.ASPxPivotGrid.DataSourceColumnBinding("ProductSales")
+                             field.Caption = "ProductSales"
+                         End Sub)
+     settings.Fields.Add(Sub(field)
+                             field.Area = PivotArea.FilterArea
+                             field.DataBinding = New DevExpress.Web.ASPxPivotGrid.DataSourceColumnBinding("ShippedDate")
+                             field.Caption = "ShippedDate"
+                         End Sub)
 
-                             End Sub)
-         settings.Fields.Add(Sub(field)
-                                     field.Area = PivotArea.DataArea
-                                     field.FieldName = "ProductSales"
-                                     field.Caption = "ProductSales"
+     settings.PreRender = AddressOf ConfigurePivot
+     settings.AfterPerformCallback = AddressOf ConfigurePivot
 
-                             End Sub)
-         settings.Fields.Add(Sub(field)
-                                     field.Area = PivotArea.FilterArea
-                                     field.FieldName = "ShippedDate"
-                                     field.Caption = "ShippedDate"
-
-                             End Sub)
-
-         settings.PreRender = AddressOf ConfigurePivot
-         settings.AfterPerformCallback = AddressOf ConfigurePivot
-
-         settings.ClientSideEvents.Init = "onInit"
-         settings.ClientSideEvents.EndCallback = "onEndCallback"
+     settings.ClientSideEvents.Init = "onInit"
+     settings.ClientSideEvents.EndCallback = "onEndCallback"
  End Sub).Bind(Model).GetHtml()
