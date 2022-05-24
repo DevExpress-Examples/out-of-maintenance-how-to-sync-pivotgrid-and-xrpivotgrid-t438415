@@ -1,25 +1,25 @@
 @Html.DevExpress().PivotGrid(settings => {
     settings.Name = "PivotGrid";
     settings.CallbackRouteValues = new { Controller = "Home", Action = "PivotGridPartial" };
-
+    settings.OptionsData.DataProcessingEngine = PivotDataProcessingEngine.Optimized;
     settings.Fields.Add(field => {
         field.Area = PivotArea.RowArea;
-        field.FieldName = "CategoryName";
+        field.DataBinding = new DevExpress.Web.ASPxPivotGrid.DataSourceColumnBinding("CategoryName");
         field.Caption = "CategoryName";
     });
     settings.Fields.Add(field => {
         field.Area = PivotArea.FilterArea;
-        field.FieldName = "ProductName";
+        field.DataBinding = new DevExpress.Web.ASPxPivotGrid.DataSourceColumnBinding("ProductName");
         field.Caption = "ProductName";
     });
     settings.Fields.Add(field => {
         field.Area = PivotArea.DataArea;
-        field.FieldName = "ProductSales";
+        field.DataBinding = new DevExpress.Web.ASPxPivotGrid.DataSourceColumnBinding("ProductSales");
         field.Caption = "ProductSales";
     });
     settings.Fields.Add(field => {
         field.Area = PivotArea.FilterArea;
-        field.FieldName = "ShippedDate";
+        field.DataBinding = new DevExpress.Web.ASPxPivotGrid.DataSourceColumnBinding("ShippedDate");
         field.Caption = "ShippedDate";
     });
 
@@ -31,7 +31,7 @@
             pivot.SaveCollapsedStateToStream(collapsedStateMS);
 
             Session["CollapsedState"] = collapsedStateMS.ToArray();
-            Session["Layout"] = layoutMS.ToArray(); 
+            Session["Layout"] = layoutMS.ToArray();
         }
     };
     settings.ClientSideEvents.Init = "onInit";
